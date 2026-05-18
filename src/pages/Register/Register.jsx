@@ -3,8 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import useAuth from "../../hooks/useAuth";
+import useTitle from "../../hooks/useTitle";
 
 const Register = () => {
+  useTitle("Register");
+
   const {
     createUser,
     updateUserProfile,
@@ -46,20 +49,15 @@ const Register = () => {
 
     try {
       // Create User
-      const result = await createUser(
-        email,
-        password
-      );
+      await createUser(email, password);
 
-      // Update Profile
+      // Update User Profile
       await updateUserProfile({
         displayName: name,
         photoURL: photo,
       });
 
-      toast.success(
-        "Registration successful"
-      );
+      toast.success("Registration successful");
 
       navigate("/");
     } catch (error) {
@@ -102,7 +100,7 @@ const Register = () => {
             <input
               type="text"
               name="photo"
-              placeholder="Enter photo URL"
+              placeholder="Enter your photo URL"
               required
               className="w-full px-4 py-3 border border-slate-300 rounded-xl outline-none focus:border-cyan-500"
             />

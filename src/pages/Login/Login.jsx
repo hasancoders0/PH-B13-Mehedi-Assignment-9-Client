@@ -1,18 +1,28 @@
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
 import toast from "react-hot-toast";
 
 import { FcGoogle } from "react-icons/fc";
 
 import useAuth from "../../hooks/useAuth";
+import useTitle from "../../hooks/useTitle";
 
 const Login = () => {
+  useTitle("Login");
   const {
     loginUser,
     googleLogin,
   } = useAuth();
 
   const navigate = useNavigate();
+
+  const location = useLocation();
+
+  const from = location.state || "/";
 
   // Email Login
   const handleLogin = async (e) => {
@@ -29,7 +39,7 @@ const Login = () => {
 
       toast.success("Login successful");
 
-      navigate("/");
+      navigate(from);
     } catch (error) {
       toast.error(error.message);
     }
@@ -44,7 +54,7 @@ const Login = () => {
         "Google login successful"
       );
 
-      navigate("/");
+      navigate(from);
     } catch (error) {
       toast.error(error.message);
     }

@@ -5,7 +5,11 @@ import { RouterProvider } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 import router from "./routes/Router";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
+import "animate.css";
 import "./index.css";
 
 import AuthProvider from "./providers/AuthProvider";
