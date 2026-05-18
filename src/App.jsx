@@ -1,9 +1,9 @@
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-900">
-      <h1 className="text-5xl font-bold text-cyan-400">
+    <div className="min-h-screen flex items-center justify-center bg-slate-100">
+      <div className="px-8 py-4 rounded-2xl bg-white text-slate-800 text-2xl font-bold shadow-xl border border-slate-200">
         Tutor Booking System
-      </h1>
+      </div>
     </div>
   );
 }
