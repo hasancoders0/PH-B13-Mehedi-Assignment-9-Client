@@ -5,6 +5,7 @@ import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import AddTutor from "../pages/AddTutor/AddTutor";
 
 import PrivateRoute from "./PrivateRoute";
 
@@ -32,9 +33,7 @@ const router = createBrowserRouter([
         path: "/add-tutor",
         element: (
           <PrivateRoute>
-            <h1 className="text-5xl text-center mt-20 font-bold">
-              Add Tutor Page
-            </h1>
+            <AddTutor />
           </PrivateRoute>
         ),
       },
