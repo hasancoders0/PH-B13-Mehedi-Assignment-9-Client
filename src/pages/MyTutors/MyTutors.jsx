@@ -7,6 +7,8 @@ import axiosSecure from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
 import useTitle from "../../hooks/useTitle";
 
+import DeleteConfirmModal from "../../components/MyTutors/DeleteConfirmModal";
+
 const MyTutors = () => {
   useTitle("My Tutors");
 
@@ -17,6 +19,12 @@ const MyTutors = () => {
 
   const [loading, setLoading] =
     useState(true);
+
+  const [isModalOpen, setIsModalOpen] =
+    useState(false);
+
+  const [selectedTutorId, setSelectedTutorId] =
+    useState(null);
 
   // Fetch My Tutors
   useEffect(() => {
@@ -42,21 +50,30 @@ const MyTutors = () => {
 
   }, [user]);
 
-  // Delete Tutor
-  const handleDeleteTutor = async (id) => {
+  // Open Delete Modal
+  const openDeleteModal = (id) => {
 
-    const confirmDelete =
-      window.confirm(
-        "Are you sure you want to delete this tutor?"
-      );
+    setSelectedTutorId(id);
 
-    if (!confirmDelete) return;
+    setIsModalOpen(true);
+  };
+
+  // Close Modal
+  const closeModal = () => {
+
+    setSelectedTutorId(null);
+
+    setIsModalOpen(false);
+  };
+
+  // Confirm Delete
+  const confirmDelete = async () => {
 
     try {
 
       const res =
         await axiosSecure.delete(
-          `/tutors/${id}`
+          `/tutors/${selectedTutorId}`
         );
 
       if (res.data.deletedCount > 0) {
@@ -67,10 +84,13 @@ const MyTutors = () => {
 
         const remainingTutors =
           tutors.filter(
-            (tutor) => tutor._id !== id
+            (tutor) =>
+              tutor._id !== selectedTutorId
           );
 
         setTutors(remainingTutors);
+
+        closeModal();
       }
 
     } catch (error) {
@@ -184,7 +204,7 @@ const MyTutors = () => {
 
                   <button
                     onClick={() =>
-                      handleDeleteTutor(
+                      openDeleteModal(
                         tutor._id
                       )
                     }
@@ -198,6 +218,13 @@ const MyTutors = () => {
           ))}
         </div>
       </div>
+
+      {/* Delete Modal */}
+      <DeleteConfirmModal
+        isOpen={isModalOpen}
+        closeModal={closeModal}
+        confirmDelete={confirmDelete}
+      />
     </div>
   );
 };
