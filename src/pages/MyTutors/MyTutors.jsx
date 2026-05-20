@@ -9,6 +9,8 @@ import useTitle from "../../hooks/useTitle";
 
 import DeleteConfirmModal from "../../components/MyTutors/DeleteConfirmModal";
 
+import UpdateTutorModal from "../../components/MyTutors/UpdateTutorModal";
+
 const MyTutors = () => {
   useTitle("My Tutors");
 
@@ -20,10 +22,18 @@ const MyTutors = () => {
   const [loading, setLoading] =
     useState(true);
 
+  // Delete Modal States
   const [isModalOpen, setIsModalOpen] =
     useState(false);
 
   const [selectedTutorId, setSelectedTutorId] =
+    useState(null);
+
+  // Update Modal States
+  const [isUpdateModalOpen, setIsUpdateModalOpen] =
+    useState(false);
+
+  const [selectedTutor, setSelectedTutor] =
     useState(null);
 
   // Fetch My Tutors
@@ -58,7 +68,7 @@ const MyTutors = () => {
     setIsModalOpen(true);
   };
 
-  // Close Modal
+  // Close Delete Modal
   const closeModal = () => {
 
     setSelectedTutorId(null);
@@ -97,6 +107,22 @@ const MyTutors = () => {
 
       toast.error(error.message);
     }
+  };
+
+  // Open Update Modal
+  const openUpdateModal = (tutor) => {
+
+    setSelectedTutor(tutor);
+
+    setIsUpdateModalOpen(true);
+  };
+
+  // Close Update Modal
+  const closeUpdateModal = () => {
+
+    setSelectedTutor(null);
+
+    setIsUpdateModalOpen(false);
   };
 
   // Loading Spinner
@@ -196,12 +222,17 @@ const MyTutors = () => {
                 {/* Action Buttons */}
                 <div className="mt-6 flex gap-3">
 
+                  {/* Update */}
                   <button
+                    onClick={() =>
+                      openUpdateModal(tutor)
+                    }
                     className="w-full py-3 rounded-xl bg-cyan-500 text-white font-semibold hover:bg-cyan-600 transition"
                   >
                     Update
                   </button>
 
+                  {/* Delete */}
                   <button
                     onClick={() =>
                       openDeleteModal(
@@ -224,6 +255,15 @@ const MyTutors = () => {
         isOpen={isModalOpen}
         closeModal={closeModal}
         confirmDelete={confirmDelete}
+      />
+
+      {/* Update Modal */}
+      <UpdateTutorModal
+        isOpen={isUpdateModalOpen}
+        closeModal={closeUpdateModal}
+        selectedTutor={selectedTutor}
+        tutors={tutors}
+        setTutors={setTutors}
       />
     </div>
   );

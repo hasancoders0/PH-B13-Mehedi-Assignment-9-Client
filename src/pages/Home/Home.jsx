@@ -6,6 +6,10 @@ import useTitle from "../../hooks/useTitle";
 
 import axiosSecure from "../../api/axios";
 
+import FeaturedTutors from "../../components/Home/FeaturedTutors";
+
+import WhyChooseUs from "../../components/Home/WhyChooseUs";
+
 const Home = () => {
   useTitle("Home");
 
@@ -19,6 +23,8 @@ const Home = () => {
   return (
     <div>
       <Banner />
+      <FeaturedTutors />
+      <WhyChooseUs />
     </div>
   );
 };

@@ -14,7 +14,8 @@ const AllTutors = () => {
 
   const { user } = useAuth();
 
-  const [tutors, setTutors] = useState([]);
+  const [tutors, setTutors] =
+    useState([]);
 
   const [selectedTutor, setSelectedTutor] =
     useState(null);
@@ -22,27 +23,35 @@ const AllTutors = () => {
   const [loading, setLoading] =
     useState(true);
 
+  const [searchText, setSearchText] =
+    useState("");
+
   // Fetch Tutors
   useEffect(() => {
 
-    axiosSecure("/tutors")
+    axiosSecure(
+      `/tutors?search=${searchText}`
+    )
       .then((res) => {
+
         setTutors(res.data);
 
         setLoading(false);
       })
       .catch((error) => {
+
         console.log(error);
 
         setLoading(false);
       });
 
-  }, []);
+  }, [searchText]);
 
   // Open Modal
   const handleViewDetails = (tutor) => {
 
     if (!user) {
+
       return toast.error(
         "Please login first"
       );
@@ -53,6 +62,7 @@ const AllTutors = () => {
 
   // Close Modal
   const closeModal = () => {
+
     setSelectedTutor(null);
   };
 
@@ -82,6 +92,20 @@ const AllTutors = () => {
             Find professional tutors for
             personalized learning sessions.
           </p>
+        </div>
+
+        {/* Search */}
+        <div className="max-w-2xl mx-auto mb-10">
+
+          <input
+            type="text"
+            placeholder="Search by subject..."
+            value={searchText}
+            onChange={(e) =>
+              setSearchText(e.target.value)
+            }
+            className="w-full px-6 py-4 rounded-2xl border border-slate-300 outline-none focus:border-cyan-500"
+          />
         </div>
 
         {/* Tutors Grid */}
@@ -156,9 +180,24 @@ const AllTutors = () => {
             </div>
           ))}
         </div>
+
+        {/* Empty Search Result */}
+        {tutors.length === 0 && (
+
+          <div className="bg-white rounded-2xl shadow-md p-10 text-center mt-10">
+
+            <h3 className="text-3xl font-bold text-slate-700 mb-4">
+              No Tutors Found
+            </h3>
+
+            <p className="text-slate-500">
+              Try searching another subject.
+            </p>
+          </div>
+        )}
       </div>
 
-      {/* Modal Component */}
+      {/* Modal */}
       <TutorDetailsModal
         selectedTutor={selectedTutor}
         closeModal={closeModal}
