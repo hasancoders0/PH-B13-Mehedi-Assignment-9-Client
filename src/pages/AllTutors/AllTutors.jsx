@@ -1,17 +1,28 @@
 import { useEffect, useState } from "react";
 
+import toast from "react-hot-toast";
+
 import axiosSecure from "../../api/axios";
 
 import useTitle from "../../hooks/useTitle";
+import useAuth from "../../hooks/useAuth";
+
+import TutorDetailsModal from "../../components/AllTutors/TutorDetailsModal";
 
 const AllTutors = () => {
   useTitle("All Tutors");
 
+  const { user } = useAuth();
+
   const [tutors, setTutors] = useState([]);
+
+  const [selectedTutor, setSelectedTutor] =
+    useState(null);
 
   const [loading, setLoading] =
     useState(true);
 
+  // Fetch Tutors
   useEffect(() => {
 
     axiosSecure("/tutors")
@@ -28,11 +39,29 @@ const AllTutors = () => {
 
   }, []);
 
+  // Open Modal
+  const handleViewDetails = (tutor) => {
+
+    if (!user) {
+      return toast.error(
+        "Please login first"
+      );
+    }
+
+    setSelectedTutor(tutor);
+  };
+
+  // Close Modal
+  const closeModal = () => {
+    setSelectedTutor(null);
+  };
+
+  // Loading Spinner
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
 
-        <span className="loading loading-bars loading-lg text-cyan-500"></span>
+        <div className="w-14 h-14 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -42,6 +71,7 @@ const AllTutors = () => {
 
       <div className="max-w-7xl mx-auto">
 
+        {/* Header */}
         <div className="text-center mb-12">
 
           <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">
@@ -54,6 +84,7 @@ const AllTutors = () => {
           </p>
         </div>
 
+        {/* Tutors Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
           {tutors.map((tutor) => (
@@ -63,12 +94,14 @@ const AllTutors = () => {
               className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition duration-300 border border-slate-200"
             >
 
+              {/* Tutor Image */}
               <img
                 src={tutor.image}
                 alt={tutor.tutorName}
                 className="w-full h-64 object-cover"
               />
 
+              {/* Content */}
               <div className="p-6">
 
                 <h3 className="text-2xl font-bold text-slate-800 mb-2">
@@ -110,7 +143,11 @@ const AllTutors = () => {
                   </p>
                 </div>
 
+                {/* Details Button */}
                 <button
+                  onClick={() =>
+                    handleViewDetails(tutor)
+                  }
                   className="w-full py-3 rounded-xl bg-cyan-500 text-white font-semibold hover:bg-cyan-600 transition"
                 >
                   View Details
@@ -120,6 +157,12 @@ const AllTutors = () => {
           ))}
         </div>
       </div>
+
+      {/* Modal Component */}
+      <TutorDetailsModal
+        selectedTutor={selectedTutor}
+        closeModal={closeModal}
+      />
     </div>
   );
 };
