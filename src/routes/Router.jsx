@@ -18,6 +18,8 @@ import MyBookedSessions from "../pages/MyBookedSessions/MyBookedSessions";
 
 import MyTutors from "../pages/MyTutors/MyTutors";
 
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -72,6 +74,10 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: "*",
+    element: <ErrorPage />,
   },
 ]);
 

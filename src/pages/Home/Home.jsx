@@ -12,6 +12,9 @@ import WhyChooseUs from "../../components/Home/WhyChooseUs";
 
 import Statistics from "../../components/Home/Statistics";
 
+import Testimonials from "../../components/Home/Testimonials";
+
+import Newsletter from "../../components/Home/Newsletter";
 const Home = () => {
   useTitle("Home");
 
@@ -28,6 +31,8 @@ const Home = () => {
       <FeaturedTutors />
       <WhyChooseUs />
       <Statistics />
+      <Testimonials />
+      <Newsletter />
     </div>
   );
 };
