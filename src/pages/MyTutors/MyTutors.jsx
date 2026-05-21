@@ -5,6 +5,11 @@ import {
 
 import toast from "react-hot-toast";
 
+import {
+  FaEdit,
+  FaTrashAlt,
+} from "react-icons/fa";
+
 import axiosSecure from "../../api/axios";
 
 import useAuth from "../../hooks/useAuth";
@@ -39,6 +44,10 @@ const MyTutors = () => {
 
   const [selectedTutor, setSelectedTutor] =
     useState(null);
+
+  // Default Image
+  const defaultImage =
+    "https://i.ibb.co/4pDNDk1/avatar.png";
 
   // Fetch My Tutors
   useEffect(() => {
@@ -103,14 +112,18 @@ const MyTutors = () => {
               selectedTutorId
           );
 
-        setTutors(remainingTutors);
+        setTutors(
+          remainingTutors
+        );
 
         closeModal();
       }
 
     } catch (error) {
 
-      toast.error(error.message);
+      toast.error(
+        error.message
+      );
     }
   };
 
@@ -130,11 +143,11 @@ const MyTutors = () => {
     setIsUpdateModalOpen(false);
   };
 
-  // Loading Spinner
+  // Loading
   if (loading) {
 
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-slate-100 dark:bg-slate-950">
 
         <div className="w-14 h-14 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
@@ -142,148 +155,229 @@ const MyTutors = () => {
   }
 
   return (
-    <div className="bg-slate-100 min-h-screen py-14 px-4">
+    <section className="bg-slate-100 dark:bg-slate-950 min-h-screen py-16 px-4 transition duration-300 overflow-hidden">
 
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
         <div className="text-center mb-12">
 
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-300 text-sm font-semibold mb-5">
+
+            <span className="w-2 h-2 rounded-full bg-cyan-500"></span>
+
+            Tutor Management
+          </div>
+
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-5">
+
             My Tutors
           </h2>
 
-          <p className="text-slate-600">
+          <p className="text-slate-600 dark:text-slate-300 text-lg">
+
             Manage your added tutor sessions.
           </p>
         </div>
 
         {/* Empty State */}
-        {tutors.length === 0 ? (
+        {
+          tutors.length === 0 ? (
 
-          <div className="bg-white rounded-2xl shadow-md p-10 text-center">
+            <div className="bg-white dark:bg-slate-900 rounded-[30px] border border-slate-200 dark:border-white/10 shadow-xl p-12 text-center">
 
-            <h3 className="text-3xl font-bold text-slate-700 mb-4">
-              No Tutors Found
-            </h3>
+              <h3 className="text-3xl font-black text-slate-900 dark:text-white mb-4">
 
-            <p className="text-slate-500">
-              You have not added any tutor yet.
-            </p>
-          </div>
+                No Tutors Found
+              </h3>
 
-        ) : (
+              <p className="text-slate-500 dark:text-slate-400">
 
-          <div className="overflow-x-auto bg-white rounded-2xl shadow-lg">
+                You have not added any tutor yet.
+              </p>
+            </div>
 
-            <table className="table">
+          ) : (
 
-              {/* Head */}
-              <thead className="bg-cyan-500 text-white">
+            <div className="overflow-x-auto rounded-[30px] border border-slate-200 dark:border-white/10 shadow-xl bg-white dark:bg-slate-900">
 
-                <tr>
+              <table className="w-full min-w-[1000px]">
 
-                  <th>#</th>
+                {/* Head */}
+                <thead className="bg-cyan-500 text-white">
 
-                  <th>Image</th>
+                  <tr>
 
-                  <th>Tutor Name</th>
+                    <th className="px-6 py-5 text-left">
+                      #
+                    </th>
 
-                  <th>Subject</th>
+                    <th className="px-6 py-5 text-left">
+                      Tutor
+                    </th>
 
-                  <th>Fee</th>
+                    <th className="px-6 py-5 text-left">
+                      Subject
+                    </th>
 
-                  <th>Slots</th>
+                    <th className="px-6 py-5 text-left">
+                      Fee
+                    </th>
 
-                  <th>Session Date</th>
+                    <th className="px-6 py-5 text-left">
+                      Slots
+                    </th>
 
-                  <th>Mode</th>
+                    <th className="px-6 py-5 text-left">
+                      Session Date
+                    </th>
 
-                  <th>Actions</th>
-                </tr>
-              </thead>
+                    <th className="px-6 py-5 text-left">
+                      Mode
+                    </th>
 
-              {/* Body */}
-              <tbody>
+                    <th className="px-6 py-5 text-center">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
 
-                {tutors.map(
-                  (tutor, index) => (
+                {/* Body */}
+                <tbody>
 
-                    <tr key={tutor._id}>
+                  {
+                    tutors.map(
+                      (
+                        tutor,
+                        index
+                      ) => (
 
-                      <td>
-                        {index + 1}
-                      </td>
+                        <tr
+                          key={tutor._id}
+                          className="border-b border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition"
+                        >
 
-                      <td>
+                          <td className="px-6 py-5 font-semibold text-slate-700 dark:text-slate-200">
 
-                        <img
-                          src={tutor.image}
-                          alt={tutor.tutorName}
-                          className="w-16 h-16 rounded-xl object-cover"
-                        />
-                      </td>
+                            {index + 1}
+                          </td>
 
-                      <td className="font-semibold">
-                        {tutor.tutorName}
-                      </td>
+                          {/* Tutor */}
+                          <td className="px-6 py-5">
 
-                      <td>
-                        {tutor.subject}
-                      </td>
+                            <div className="flex items-center gap-4">
 
-                      <td>
-                        ৳ {tutor.fee}
-                      </td>
+                              <img
+                                src={
+                                  tutor.image ||
+                                  defaultImage
+                                }
+                                onError={(e) => {
+                                  e.target.src =
+                                    defaultImage;
+                                }}
+                                alt={
+                                  tutor.tutorName
+                                }
+                                className="w-14 h-14 rounded-2xl object-cover border border-slate-200 dark:border-white/10"
+                              />
 
-                      <td>
-                        {tutor.totalSlots}
-                      </td>
+                              <div>
 
-                      <td>
-                        {tutor.sessionDate}
-                      </td>
+                                <h3 className="font-bold text-slate-900 dark:text-white">
 
-                      <td>
-                        {tutor.mode}
-                      </td>
+                                  {tutor.tutorName}
+                                </h3>
 
-                      <td>
+                                <p className="text-sm text-slate-500 dark:text-slate-400">
 
-                        <div className="flex gap-2">
+                                  Professional Tutor
+                                </p>
+                              </div>
+                            </div>
+                          </td>
 
-                          {/* Update */}
-                          <button
-                            onClick={() =>
-                              openUpdateModal(
-                                tutor
-                              )
-                            }
-                            className="px-4 py-2 rounded-lg bg-cyan-500 text-white hover:bg-cyan-600 transition"
-                          >
-                            Update
-                          </button>
+                          {/* Subject */}
+                          <td className="px-6 py-5">
 
-                          {/* Delete */}
-                          <button
-                            onClick={() =>
-                              openDeleteModal(
-                                tutor._id
-                              )
-                            }
-                            className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                )}
-              </tbody>
-            </table>
-          </div>
-        )}
+                            <div className="inline-flex px-4 py-2 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 text-sm font-semibold">
+
+                              {tutor.subject}
+                            </div>
+                          </td>
+
+                          {/* Fee */}
+                          <td className="px-6 py-5 font-semibold text-slate-700 dark:text-slate-200">
+
+                            ৳ {tutor.fee}
+                          </td>
+
+                          {/* Slots */}
+                          <td className="px-6 py-5 font-semibold text-slate-700 dark:text-slate-200">
+
+                            {tutor.totalSlots}
+                          </td>
+
+                          {/* Date */}
+                          <td className="px-6 py-5 text-slate-700 dark:text-slate-200">
+
+                            {tutor.sessionDate}
+                          </td>
+
+                          {/* Mode */}
+                          <td className="px-6 py-5">
+
+                            <span className="inline-flex px-4 py-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium">
+
+                              {tutor.mode}
+                            </span>
+                          </td>
+
+                          {/* Actions */}
+                          <td className="px-6 py-5">
+
+                            <div className="flex items-center justify-center gap-3">
+
+                              {/* Update */}
+                              <button
+                                onClick={() =>
+                                  openUpdateModal(
+                                    tutor
+                                  )
+                                }
+                                className="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-600 text-white font-semibold transition duration-300 flex items-center gap-2"
+                              >
+
+                                <FaEdit />
+
+                                Update
+                              </button>
+
+                              {/* Delete */}
+                              <button
+                                onClick={() =>
+                                  openDeleteModal(
+                                    tutor._id
+                                  )
+                                }
+                                className="px-5 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white font-semibold transition duration-300 flex items-center gap-2"
+                              >
+
+                                <FaTrashAlt />
+
+                                Delete
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                    )
+                  }
+                </tbody>
+              </table>
+            </div>
+          )
+        }
       </div>
 
       {/* Delete Modal */}
@@ -301,7 +395,7 @@ const MyTutors = () => {
         tutors={tutors}
         setTutors={setTutors}
       />
-    </div>
+    </section>
   );
 };
 

@@ -2,6 +2,20 @@ import { useState } from "react";
 
 import toast from "react-hot-toast";
 
+import {
+  FaTimes,
+  FaUserTie,
+  FaBookOpen,
+  FaCalendarAlt,
+  FaClock,
+  FaMoneyBillWave,
+  FaLayerGroup,
+  FaMapMarkerAlt,
+  FaGraduationCap,
+  FaLaptopHouse,
+  FaImage,
+} from "react-icons/fa";
+
 import axiosSecure from "../../api/axios";
 
 const UpdateTutorModal = ({
@@ -56,10 +70,12 @@ const UpdateTutorModal = ({
       location:
         form.location.value,
 
+      institution:
+        form.institution.value,
+
       mode:
         form.mode.value,
 
-      // Session Date
       sessionDate:
         form.sessionDate.value,
     };
@@ -106,34 +122,54 @@ const UpdateTutorModal = ({
     }
   };
 
+  // Reusable Input Style
+  const inputStyle =
+    "w-full px-4 py-3 rounded-2xl border border-slate-300 dark:border-white/10 bg-white dark:bg-slate-800 text-slate-800 dark:text-white outline-none focus:border-cyan-500 transition";
+
+  // Label Style
+  const labelStyle =
+    "flex items-center gap-2 mb-2 font-semibold text-slate-700 dark:text-slate-200";
+
   return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center px-4 overflow-y-auto py-10">
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center px-4 py-8 overflow-y-auto">
 
-      <div className="bg-white rounded-2xl max-w-4xl w-full p-8 animate__animated animate__zoomIn relative">
+      <div className="relative w-full max-w-5xl bg-white dark:bg-slate-900 rounded-[32px] shadow-2xl border border-slate-200 dark:border-white/10 animate__animated animate__fadeInUp">
 
-        {/* Close */}
+        {/* Close Button */}
         <button
           onClick={closeModal}
-          className="absolute top-4 right-4 w-10 h-10 rounded-full bg-red-500 text-white font-bold"
+          className="absolute top-5 right-5 w-11 h-11 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center transition"
         >
-          ✕
+          <FaTimes />
         </button>
 
-        {/* Title */}
-        <h2 className="text-4xl font-bold text-center text-slate-800 mb-10">
-          Update Tutor
-        </h2>
+        {/* Header */}
+        <div className="p-8 md:p-10 border-b border-slate-200 dark:border-white/10">
+
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-3">
+
+            Update Tutor
+          </h2>
+
+          <p className="text-slate-600 dark:text-slate-400">
+
+            Edit tutor information and update the learning session details.
+          </p>
+        </div>
 
         {/* Form */}
         <form
           onSubmit={handleUpdateTutor}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          className="p-8 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-6"
         >
 
           {/* Tutor Name */}
           <div>
 
-            <label className="block mb-2 font-medium">
+            <label className={labelStyle}>
+
+              <FaUserTie />
+
               Tutor Name
             </label>
 
@@ -144,15 +180,18 @@ const UpdateTutorModal = ({
                 selectedTutor.tutorName
               }
               required
-              className="w-full px-4 py-3 border rounded-xl outline-none"
+              className={inputStyle}
             />
           </div>
 
           {/* Image */}
           <div>
 
-            <label className="block mb-2 font-medium">
-              Image URL
+            <label className={labelStyle}>
+
+              <FaImage />
+
+              Photo URL
             </label>
 
             <input
@@ -162,14 +201,17 @@ const UpdateTutorModal = ({
                 selectedTutor.image
               }
               required
-              className="w-full px-4 py-3 border rounded-xl outline-none"
+              className={inputStyle}
             />
           </div>
 
           {/* Subject */}
           <div>
 
-            <label className="block mb-2 font-medium">
+            <label className={labelStyle}>
+
+              <FaBookOpen />
+
               Subject
             </label>
 
@@ -180,15 +222,18 @@ const UpdateTutorModal = ({
                 selectedTutor.subject
               }
               required
-              className="w-full px-4 py-3 border rounded-xl outline-none"
+              className={inputStyle}
             />
           </div>
 
           {/* Days */}
           <div>
 
-            <label className="block mb-2 font-medium">
-              Days
+            <label className={labelStyle}>
+
+              <FaCalendarAlt />
+
+              Available Days
             </label>
 
             <input
@@ -198,15 +243,18 @@ const UpdateTutorModal = ({
                 selectedTutor.days
               }
               required
-              className="w-full px-4 py-3 border rounded-xl outline-none"
+              className={inputStyle}
             />
           </div>
 
           {/* Time */}
           <div>
 
-            <label className="block mb-2 font-medium">
-              Time
+            <label className={labelStyle}>
+
+              <FaClock />
+
+              Time Slot
             </label>
 
             <input
@@ -216,15 +264,18 @@ const UpdateTutorModal = ({
                 selectedTutor.time
               }
               required
-              className="w-full px-4 py-3 border rounded-xl outline-none"
+              className={inputStyle}
             />
           </div>
 
           {/* Fee */}
           <div>
 
-            <label className="block mb-2 font-medium">
-              Fee
+            <label className={labelStyle}>
+
+              <FaMoneyBillWave />
+
+              Hourly Fee
             </label>
 
             <input
@@ -234,14 +285,17 @@ const UpdateTutorModal = ({
                 selectedTutor.fee
               }
               required
-              className="w-full px-4 py-3 border rounded-xl outline-none"
+              className={inputStyle}
             />
           </div>
 
           {/* Slots */}
           <div>
 
-            <label className="block mb-2 font-medium">
+            <label className={labelStyle}>
+
+              <FaLayerGroup />
+
               Total Slots
             </label>
 
@@ -252,14 +306,17 @@ const UpdateTutorModal = ({
                 selectedTutor.totalSlots
               }
               required
-              className="w-full px-4 py-3 border rounded-xl outline-none"
+              className={inputStyle}
             />
           </div>
 
           {/* Experience */}
           <div>
 
-            <label className="block mb-2 font-medium">
+            <label className={labelStyle}>
+
+              <FaGraduationCap />
+
               Experience
             </label>
 
@@ -270,14 +327,38 @@ const UpdateTutorModal = ({
                 selectedTutor.experience
               }
               required
-              className="w-full px-4 py-3 border rounded-xl outline-none"
+              className={inputStyle}
+            />
+          </div>
+
+          {/* Institution */}
+          <div>
+
+            <label className={labelStyle}>
+
+              <FaGraduationCap />
+
+              Institution
+            </label>
+
+            <input
+              type="text"
+              name="institution"
+              defaultValue={
+                selectedTutor.institution
+              }
+              required
+              className={inputStyle}
             />
           </div>
 
           {/* Location */}
           <div>
 
-            <label className="block mb-2 font-medium">
+            <label className={labelStyle}>
+
+              <FaMapMarkerAlt />
+
               Location
             </label>
 
@@ -288,14 +369,17 @@ const UpdateTutorModal = ({
                 selectedTutor.location
               }
               required
-              className="w-full px-4 py-3 border rounded-xl outline-none"
+              className={inputStyle}
             />
           </div>
 
-          {/* Mode */}
+          {/* Teaching Mode */}
           <div>
 
-            <label className="block mb-2 font-medium">
+            <label className={labelStyle}>
+
+              <FaLaptopHouse />
+
               Teaching Mode
             </label>
 
@@ -305,7 +389,7 @@ const UpdateTutorModal = ({
                 selectedTutor.mode
               }
               required
-              className="w-full px-4 py-3 border rounded-xl outline-none"
+              className={inputStyle}
             >
 
               <option value="Online">
@@ -325,7 +409,10 @@ const UpdateTutorModal = ({
           {/* Session Date */}
           <div>
 
-            <label className="block mb-2 font-medium">
+            <label className={labelStyle}>
+
+              <FaCalendarAlt />
+
               Session Start Date
             </label>
 
@@ -336,21 +423,21 @@ const UpdateTutorModal = ({
                 selectedTutor.sessionDate
               }
               required
-              className="w-full px-4 py-3 border rounded-xl outline-none"
+              className={inputStyle}
             />
           </div>
 
           {/* Submit */}
-          <div className="md:col-span-2">
+          <div className="md:col-span-2 pt-2">
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 rounded-xl bg-cyan-500 text-white font-semibold hover:bg-cyan-600 transition"
+              className="w-full py-4 rounded-2xl bg-cyan-500 hover:bg-cyan-600 text-white font-bold text-lg transition duration-300"
             >
               {
                 loading
-                  ? "Updating..."
+                  ? "Updating Tutor..."
                   : "Update Tutor"
               }
             </button>

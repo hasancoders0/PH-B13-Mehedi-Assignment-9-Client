@@ -1,14 +1,33 @@
 import toast from "react-hot-toast";
 
+import {
+  FaUserTie,
+  FaImage,
+  FaBookOpen,
+  FaCalendarAlt,
+  FaClock,
+  FaMoneyBillWave,
+  FaLayerGroup,
+  FaUserGraduate,
+  FaMapMarkerAlt,
+  FaLaptopHouse,
+  FaPlusCircle,
+} from "react-icons/fa";
+
 import axiosSecure from "../../api/axios";
 
 import useAuth from "../../hooks/useAuth";
 import useTitle from "../../hooks/useTitle";
 
 const AddTutor = () => {
+
   useTitle("Add Tutor");
 
   const { user } = useAuth();
+
+  // Default Image
+  const defaultImage =
+    "https://i.ibb.co/4pDNDk1/avatar.png";
 
   const handleAddTutor = async (e) => {
 
@@ -22,7 +41,8 @@ const AddTutor = () => {
         form.tutorName.value,
 
       image:
-        form.image.value,
+        form.image.value ||
+        defaultImage,
 
       subject:
         form.subject.value,
@@ -81,227 +101,301 @@ const AddTutor = () => {
 
     } catch (error) {
 
-      toast.error(error.message);
+      toast.error(
+        error.message
+      );
     }
   };
 
   return (
-    <div className="bg-slate-100 py-14 px-4">
+    <section className="bg-slate-100 dark:bg-slate-950 py-16 px-4 transition duration-300 overflow-hidden">
 
-      <div className="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-lg border border-slate-200">
+      <div className="max-w-5xl mx-auto">
 
-        <h2 className="text-4xl font-bold text-center text-slate-800 mb-10">
-          Add Tutor
-        </h2>
+        {/* Header */}
+        <div className="text-center mb-12">
 
-        <form
-          onSubmit={handleAddTutor}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
-        >
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-300 text-sm font-semibold mb-5">
 
-          {/* Tutor Name */}
-          <div>
+            <span className="w-2 h-2 rounded-full bg-cyan-500"></span>
 
-            <label className="block mb-2 font-medium text-slate-700">
-              Tutor Name
-            </label>
-
-            <input
-              type="text"
-              name="tutorName"
-              required
-              placeholder="Tutor name"
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl outline-none focus:border-cyan-500"
-            />
+            Tutor Registration
           </div>
 
-          {/* Image */}
-          <div>
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-5">
 
-            <label className="block mb-2 font-medium text-slate-700">
-              Image URL
-            </label>
+            Add New Tutor
+          </h2>
 
-            <input
-              type="text"
-              name="image"
-              required
-              placeholder="Image URL"
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl outline-none focus:border-cyan-500"
-            />
+          <p className="text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-8 text-lg">
+
+            Create a tutor profile with session details,
+            schedule, teaching mode, and learning information.
+          </p>
+        </div>
+
+        {/* Form Card */}
+        <div className="bg-white dark:bg-slate-900 rounded-[35px] border border-slate-200 dark:border-white/10 shadow-2xl overflow-hidden">
+
+          {/* Top Bar */}
+          <div className="bg-gradient-to-r from-cyan-500 to-cyan-600 px-8 py-8 text-white">
+
+            <h3 className="text-3xl font-black mb-2">
+
+              Tutor Information
+            </h3>
+
+            <p className="text-cyan-50">
+
+              Fill all required information carefully.
+            </p>
           </div>
 
-          {/* Subject */}
-          <div>
+          {/* Form */}
+          <form
+            onSubmit={handleAddTutor}
+            className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
 
-            <label className="block mb-2 font-medium text-slate-700">
-              Subject
-            </label>
+            {/* Tutor Name */}
+            <div>
 
-            <input
-              type="text"
-              name="subject"
-              required
-              placeholder="Subject"
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl outline-none focus:border-cyan-500"
-            />
-          </div>
+              <label className="flex items-center gap-2 mb-3 font-semibold text-slate-700 dark:text-slate-200">
 
-          {/* Days */}
-          <div>
+                <FaUserTie className="text-cyan-500" />
 
-            <label className="block mb-2 font-medium text-slate-700">
-              Available Days
-            </label>
+                Tutor Name
+              </label>
 
-            <input
-              type="text"
-              name="days"
-              required
-              placeholder="Sun - Thu"
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl outline-none focus:border-cyan-500"
-            />
-          </div>
+              <input
+                type="text"
+                name="tutorName"
+                required
+                placeholder="Enter tutor name"
+                className="w-full px-5 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-cyan-500 outline-none text-slate-700 dark:text-white transition"
+              />
+            </div>
 
-          {/* Time */}
-          <div>
+            {/* Image */}
+            <div>
 
-            <label className="block mb-2 font-medium text-slate-700">
-              Time Slot
-            </label>
+              <label className="flex items-center gap-2 mb-3 font-semibold text-slate-700 dark:text-slate-200">
 
-            <input
-              type="text"
-              name="time"
-              required
-              placeholder="5 PM - 8 PM"
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl outline-none focus:border-cyan-500"
-            />
-          </div>
+                <FaImage className="text-cyan-500" />
 
-          {/* Fee */}
-          <div>
+                Image URL
+              </label>
 
-            <label className="block mb-2 font-medium text-slate-700">
-              Hourly Fee
-            </label>
+              <input
+                type="text"
+                name="image"
+                placeholder="Paste image URL"
+                className="w-full px-5 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-cyan-500 outline-none text-slate-700 dark:text-white transition"
+              />
+            </div>
 
-            <input
-              type="number"
-              name="fee"
-              required
-              placeholder="Hourly fee"
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl outline-none focus:border-cyan-500"
-            />
-          </div>
+            {/* Subject */}
+            <div>
 
-          {/* Slots */}
-          <div>
+              <label className="flex items-center gap-2 mb-3 font-semibold text-slate-700 dark:text-slate-200">
 
-            <label className="block mb-2 font-medium text-slate-700">
-              Total Slots
-            </label>
+                <FaBookOpen className="text-cyan-500" />
 
-            <input
-              type="number"
-              name="totalSlots"
-              required
-              placeholder="Total slots"
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl outline-none focus:border-cyan-500"
-            />
-          </div>
+                Subject
+              </label>
 
-          {/* Experience */}
-          <div>
+              <input
+                type="text"
+                name="subject"
+                required
+                placeholder="Enter subject"
+                className="w-full px-5 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-cyan-500 outline-none text-slate-700 dark:text-white transition"
+              />
+            </div>
 
-            <label className="block mb-2 font-medium text-slate-700">
-              Experience
-            </label>
+            {/* Days */}
+            <div>
 
-            <input
-              type="text"
-              name="experience"
-              required
-              placeholder="Experience"
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl outline-none focus:border-cyan-500"
-            />
-          </div>
+              <label className="flex items-center gap-2 mb-3 font-semibold text-slate-700 dark:text-slate-200">
 
-          {/* Location */}
-          <div>
+                <FaCalendarAlt className="text-cyan-500" />
 
-            <label className="block mb-2 font-medium text-slate-700">
-              Location
-            </label>
+                Available Days
+              </label>
 
-            <input
-              type="text"
-              name="location"
-              required
-              placeholder="Location"
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl outline-none focus:border-cyan-500"
-            />
-          </div>
+              <input
+                type="text"
+                name="days"
+                required
+                placeholder="Example: Sun - Thu"
+                className="w-full px-5 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-cyan-500 outline-none text-slate-700 dark:text-white transition"
+              />
+            </div>
 
-          {/* Mode */}
-          <div>
+            {/* Time */}
+            <div>
 
-            <label className="block mb-2 font-medium text-slate-700">
-              Teaching Mode
-            </label>
+              <label className="flex items-center gap-2 mb-3 font-semibold text-slate-700 dark:text-slate-200">
 
-            <select
-              name="mode"
-              required
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl outline-none focus:border-cyan-500"
-            >
+                <FaClock className="text-cyan-500" />
 
-              <option value="">
-                Select Mode
-              </option>
+                Time Slot
+              </label>
 
-              <option value="Online">
-                Online
-              </option>
+              <input
+                type="text"
+                name="time"
+                required
+                placeholder="Example: 5 PM - 8 PM"
+                className="w-full px-5 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-cyan-500 outline-none text-slate-700 dark:text-white transition"
+              />
+            </div>
 
-              <option value="Offline">
-                Offline
-              </option>
+            {/* Fee */}
+            <div>
 
-              <option value="Both">
-                Both
-              </option>
-            </select>
-          </div>
+              <label className="flex items-center gap-2 mb-3 font-semibold text-slate-700 dark:text-slate-200">
 
-          {/* Session Date */}
-          <div>
+                <FaMoneyBillWave className="text-cyan-500" />
 
-            <label className="block mb-2 font-medium text-slate-700">
-              Session Start Date
-            </label>
+                Hourly Fee
+              </label>
 
-            <input
-              type="date"
-              name="sessionDate"
-              required
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl outline-none focus:border-cyan-500"
-            />
-          </div>
+              <input
+                type="number"
+                name="fee"
+                required
+                placeholder="Enter fee"
+                className="w-full px-5 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-cyan-500 outline-none text-slate-700 dark:text-white transition"
+              />
+            </div>
 
-          {/* Submit */}
-          <div className="md:col-span-2">
+            {/* Slots */}
+            <div>
 
-            <button
-              type="submit"
-              className="w-full py-4 rounded-xl bg-cyan-500 text-white font-semibold hover:bg-cyan-600 transition"
-            >
-              Add Tutor
-            </button>
-          </div>
-        </form>
+              <label className="flex items-center gap-2 mb-3 font-semibold text-slate-700 dark:text-slate-200">
+
+                <FaLayerGroup className="text-cyan-500" />
+
+                Total Slots
+              </label>
+
+              <input
+                type="number"
+                name="totalSlots"
+                required
+                placeholder="Enter total slots"
+                className="w-full px-5 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-cyan-500 outline-none text-slate-700 dark:text-white transition"
+              />
+            </div>
+
+            {/* Experience */}
+            <div>
+
+              <label className="flex items-center gap-2 mb-3 font-semibold text-slate-700 dark:text-slate-200">
+
+                <FaUserGraduate className="text-cyan-500" />
+
+                Experience
+              </label>
+
+              <input
+                type="text"
+                name="experience"
+                required
+                placeholder="Enter experience"
+                className="w-full px-5 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-cyan-500 outline-none text-slate-700 dark:text-white transition"
+              />
+            </div>
+
+            {/* Location */}
+            <div>
+
+              <label className="flex items-center gap-2 mb-3 font-semibold text-slate-700 dark:text-slate-200">
+
+                <FaMapMarkerAlt className="text-cyan-500" />
+
+                Location
+              </label>
+
+              <input
+                type="text"
+                name="location"
+                required
+                placeholder="Enter location"
+                className="w-full px-5 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-cyan-500 outline-none text-slate-700 dark:text-white transition"
+              />
+            </div>
+
+            {/* Mode */}
+            <div>
+
+              <label className="flex items-center gap-2 mb-3 font-semibold text-slate-700 dark:text-slate-200">
+
+                <FaLaptopHouse className="text-cyan-500" />
+
+                Teaching Mode
+              </label>
+
+              <select
+                name="mode"
+                required
+                className="w-full px-5 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-cyan-500 outline-none text-slate-700 dark:text-white transition"
+              >
+
+                <option value="">
+                  Select Mode
+                </option>
+
+                <option value="Online">
+                  Online
+                </option>
+
+                <option value="Offline">
+                  Offline
+                </option>
+
+                <option value="Both">
+                  Both
+                </option>
+              </select>
+            </div>
+
+            {/* Session Date */}
+            <div>
+
+              <label className="flex items-center gap-2 mb-3 font-semibold text-slate-700 dark:text-slate-200">
+
+                <FaCalendarAlt className="text-cyan-500" />
+
+                Session Start Date
+              </label>
+
+              <input
+                type="date"
+                name="sessionDate"
+                required
+                className="w-full px-5 py-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-transparent focus:border-cyan-500 outline-none text-slate-700 dark:text-white transition"
+              />
+            </div>
+
+            {/* Submit */}
+            <div className="md:col-span-2 pt-4">
+
+              <button
+                type="submit"
+                className="w-full py-4 rounded-2xl bg-cyan-500 hover:bg-cyan-600 text-white font-semibold transition duration-300 flex items-center justify-center gap-3 shadow-xl shadow-cyan-500/20"
+              >
+
+                <FaPlusCircle />
+
+                Add Tutor
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

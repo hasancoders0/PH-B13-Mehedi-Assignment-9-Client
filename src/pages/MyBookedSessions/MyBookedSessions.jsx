@@ -5,6 +5,13 @@ import {
 
 import toast from "react-hot-toast";
 
+import {
+  FaBookOpen,
+  FaMoneyBillWave,
+  FaBan,
+  FaCheckCircle,
+} from "react-icons/fa";
+
 import axiosSecure from "../../api/axios";
 
 import useAuth from "../../hooks/useAuth";
@@ -21,6 +28,10 @@ const MyBookedSessions = () => {
 
   const [loading, setLoading] =
     useState(true);
+
+  // Default Image
+  const defaultImage =
+    "https://i.ibb.co/4pDNDk1/avatar.png";
 
   // Fetch Bookings
   useEffect(() => {
@@ -70,17 +81,22 @@ const MyBookedSessions = () => {
             booking._id === id
               ? {
                   ...booking,
-                  status: "Cancelled",
+                  status:
+                    "Cancelled",
                 }
               : booking
           );
 
-        setBookings(updatedBookings);
+        setBookings(
+          updatedBookings
+        );
       }
 
     } catch (error) {
 
-      toast.error(error.message);
+      toast.error(
+        error.message
+      );
     }
   };
 
@@ -88,7 +104,7 @@ const MyBookedSessions = () => {
   if (loading) {
 
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-slate-100 dark:bg-slate-950">
 
         <div className="w-14 h-14 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
@@ -96,142 +112,257 @@ const MyBookedSessions = () => {
   }
 
   return (
-    <div className="bg-slate-100 min-h-screen py-14 px-4">
+    <section className="bg-slate-100 dark:bg-slate-950 min-h-screen py-16 px-4 transition duration-300 overflow-hidden">
 
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
         <div className="text-center mb-12">
 
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-4">
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-600 dark:text-cyan-300 text-sm font-semibold mb-5">
+
+            <span className="w-2 h-2 rounded-full bg-cyan-500"></span>
+
+            Learning Sessions
+          </div>
+
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-5">
+
             My Booked Sessions
           </h2>
 
-          <p className="text-slate-600">
-            Manage your booked tutor sessions.
+          <p className="text-slate-600 dark:text-slate-300 text-lg">
+
+            Manage your booked tutor sessions easily.
           </p>
         </div>
 
         {/* Empty State */}
-        {bookings.length === 0 ? (
+        {
+          bookings.length === 0 ? (
 
-          <div className="bg-white rounded-2xl shadow-md p-10 text-center">
+            <div className="bg-white dark:bg-slate-900 rounded-[30px] border border-slate-200 dark:border-white/10 shadow-xl p-14 text-center">
 
-            <h3 className="text-3xl font-bold text-slate-700 mb-4">
-              No Bookings Found
-            </h3>
+              <div className="w-24 h-24 mx-auto rounded-3xl bg-cyan-500/10 text-cyan-500 flex items-center justify-center text-5xl mb-8">
 
-            <p className="text-slate-500">
-              You have not booked any tutor yet.
-            </p>
-          </div>
+                <FaBookOpen />
+              </div>
 
-        ) : (
+              <h3 className="text-3xl font-black text-slate-900 dark:text-white mb-4">
 
-          <div className="overflow-x-auto bg-white rounded-2xl shadow-lg">
+                No Bookings Found
+              </h3>
 
-            <table className="table">
+              <p className="text-slate-500 dark:text-slate-400 text-lg">
 
-              {/* Head */}
-              <thead className="bg-cyan-500 text-white">
+                You have not booked any tutor yet.
+              </p>
+            </div>
 
-                <tr>
+          ) : (
 
-                  <th>#</th>
+            <div className="overflow-x-auto rounded-[30px] border border-slate-200 dark:border-white/10 shadow-xl bg-white dark:bg-slate-900">
 
-                  <th>Tutor Name</th>
+              <table className="w-full min-w-[1100px]">
 
-                  <th>Subject</th>
+                {/* Table Head */}
+                <thead className="bg-cyan-500 text-white">
 
-                  <th>Student Name</th>
+                  <tr>
 
-                  <th>Email</th>
+                    <th className="px-6 py-5 text-left">
+                      #
+                    </th>
 
-                  <th>Fee</th>
+                    <th className="px-6 py-5 text-left">
+                      Tutor
+                    </th>
 
-                  <th>Status</th>
+                    <th className="px-6 py-5 text-left">
+                      Subject
+                    </th>
 
-                  <th>Actions</th>
-                </tr>
-              </thead>
+                    <th className="px-6 py-5 text-left">
+                      Student
+                    </th>
 
-              {/* Body */}
-              <tbody>
+                    <th className="px-6 py-5 text-left">
+                      Fee
+                    </th>
 
-                {bookings.map(
-                  (booking, index) => (
+                    <th className="px-6 py-5 text-left">
+                      Status
+                    </th>
 
-                    <tr key={booking._id}>
+                    <th className="px-6 py-5 text-center">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
 
-                      <td>
-                        {index + 1}
-                      </td>
+                {/* Table Body */}
+                <tbody>
 
-                      <td className="font-semibold">
-                        {booking.tutorName}
-                      </td>
+                  {
+                    bookings.map(
+                      (
+                        booking,
+                        index
+                      ) => (
 
-                      <td>
-                        {booking.subject}
-                      </td>
-
-                      <td>
-                        {booking.studentName}
-                      </td>
-
-                      <td>
-                        {booking.studentEmail}
-                      </td>
-
-                      <td>
-                        ৳ {booking.fee}
-                      </td>
-
-                      <td>
-
-                        <span
-                          className={`px-4 py-2 rounded-full text-white text-sm font-medium ${
-                            booking.status ===
-                            "Cancelled"
-                              ? "bg-red-500"
-                              : "bg-green-500"
-                          }`}
+                        <tr
+                          key={booking._id}
+                          className="border-b border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition"
                         >
-                          {booking.status}
-                        </span>
-                      </td>
 
-                      <td>
+                          {/* Index */}
+                          <td className="px-6 py-5 font-semibold text-slate-700 dark:text-slate-200">
 
-                        <button
-                          onClick={() =>
-                            handleCancelBooking(
-                              booking._id
-                            )
-                          }
-                          disabled={
-                            booking.status ===
-                            "Cancelled"
-                          }
-                          className={`px-4 py-2 rounded-lg text-white transition ${
-                            booking.status ===
-                            "Cancelled"
-                              ? "bg-gray-400 cursor-not-allowed"
-                              : "bg-red-500 hover:bg-red-600"
-                          }`}
-                        >
-                          Cancel
-                        </button>
-                      </td>
-                    </tr>
-                  )
-                )}
-              </tbody>
-            </table>
-          </div>
-        )}
+                            {index + 1}
+                          </td>
+
+                          {/* Tutor */}
+                          <td className="px-6 py-5">
+
+                            <div className="flex items-center gap-4">
+
+                              <img
+                                src={
+                                  booking.image ||
+                                  defaultImage
+                                }
+                                onError={(e) => {
+                                  e.target.src =
+                                    defaultImage;
+                                }}
+                                alt={
+                                  booking.tutorName
+                                }
+                                className="w-14 h-14 rounded-2xl object-cover border border-slate-200 dark:border-white/10"
+                              />
+
+                              <div>
+
+                                <h3 className="font-bold text-slate-900 dark:text-white">
+
+                                  {
+                                    booking.tutorName
+                                  }
+                                </h3>
+
+                                <p className="text-sm text-slate-500 dark:text-slate-400">
+
+                                  Professional Tutor
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+
+                          {/* Subject */}
+                          <td className="px-6 py-5">
+
+                            <div className="inline-flex px-4 py-2 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 text-sm font-semibold">
+
+                              {booking.subject}
+                            </div>
+                          </td>
+
+                          {/* Student */}
+                          <td className="px-6 py-5">
+
+                            <div>
+
+                              <h4 className="font-semibold text-slate-900 dark:text-white">
+
+                                {
+                                  booking.studentName
+                                }
+                              </h4>
+
+                              <p className="text-sm text-slate-500 dark:text-slate-400">
+
+                                {
+                                  booking.studentEmail
+                                }
+                              </p>
+                            </div>
+                          </td>
+
+                          {/* Fee */}
+                          <td className="px-6 py-5">
+
+                            <div className="flex items-center gap-2 font-bold text-slate-800 dark:text-white">
+
+                              <FaMoneyBillWave className="text-cyan-500" />
+
+                              ৳ {booking.fee}
+                            </div>
+                          </td>
+
+                          {/* Status */}
+                          <td className="px-6 py-5">
+
+                            <span
+                              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold ${
+                                booking.status ===
+                                "Cancelled"
+                                  ? "bg-red-500/10 text-red-500"
+                                  : "bg-green-500/10 text-green-500"
+                              }`}
+                            >
+
+                              {
+                                booking.status ===
+                                "Cancelled"
+                                  ? (
+                                      <FaBan />
+                                    )
+                                  : (
+                                      <FaCheckCircle />
+                                    )
+                              }
+
+                              {
+                                booking.status
+                              }
+                            </span>
+                          </td>
+
+                          {/* Actions */}
+                          <td className="px-6 py-5 text-center">
+
+                            <button
+                              onClick={() =>
+                                handleCancelBooking(
+                                  booking._id
+                                )
+                              }
+                              disabled={
+                                booking.status ===
+                                "Cancelled"
+                              }
+                              className={`px-5 py-3 rounded-2xl font-semibold transition duration-300 ${
+                                booking.status ===
+                                "Cancelled"
+                                  ? "bg-slate-300 dark:bg-slate-700 text-slate-500 cursor-not-allowed"
+                                  : "bg-red-500 hover:bg-red-600 text-white"
+                              }`}
+                            >
+
+                              Cancel Booking
+                            </button>
+                          </td>
+                        </tr>
+                      )
+                    )
+                  }
+                </tbody>
+              </table>
+            </div>
+          )
+        }
       </div>
-    </div>
+    </section>
   );
 };
 
