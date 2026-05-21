@@ -1,16 +1,61 @@
-# React + Vite
+# Tutor Booking Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack tutor booking platform where students can find tutors, book sessions, manage bookings, and tutors can manage their teaching sessions.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Live Links
 
-## React Compiler
+### Client
+https://your-client-url.web.app
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Server
+https://your-server-url.vercel.app
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Features
+
+- Firebase Authentication
+- JWT Protected API
+- Tutor CRUD System
+- Book Tutor Sessions
+- Duplicate Booking Prevention
+- Session Date Restriction
+- Booking Cancellation System
+- Search Tutors by Name
+- Date Range Filtering
+- Dark / Light Theme
+- Protected Routes
+- Responsive Design
+- Modal System
+- Toast Notifications
+- MongoDB Limit Usage
+- Loading Spinner
+
+---
+
+## Technologies Used
+
+### Frontend
+- React
+- React Router
+- Tailwind CSS
+- Axios
+- Firebase
+- React Hot Toast
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+- JWT Authentication
+
+---
+
+## Environment Variables
+
+### Client `.env`
+
+```env
+VITE_API_URL=http://localhost:5000

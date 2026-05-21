@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import useTitle from "../../hooks/useTitle";
 
 const ErrorPage = () => {
+
+  useTitle("404 Not Found");
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-100 px-4">

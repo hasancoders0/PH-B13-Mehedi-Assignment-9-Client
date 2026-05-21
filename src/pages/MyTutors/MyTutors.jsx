@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
 
 import toast from "react-hot-toast";
 
@@ -12,6 +15,7 @@ import DeleteConfirmModal from "../../components/MyTutors/DeleteConfirmModal";
 import UpdateTutorModal from "../../components/MyTutors/UpdateTutorModal";
 
 const MyTutors = () => {
+
   useTitle("My Tutors");
 
   const { user } = useAuth();
@@ -95,7 +99,8 @@ const MyTutors = () => {
         const remainingTutors =
           tutors.filter(
             (tutor) =>
-              tutor._id !== selectedTutorId
+              tutor._id !==
+              selectedTutorId
           );
 
         setTutors(remainingTutors);
@@ -127,6 +132,7 @@ const MyTutors = () => {
 
   // Loading Spinner
   if (loading) {
+
     return (
       <div className="min-h-screen flex items-center justify-center">
 
@@ -153,7 +159,7 @@ const MyTutors = () => {
         </div>
 
         {/* Empty State */}
-        {tutors.length === 0 && (
+        {tutors.length === 0 ? (
 
           <div className="bg-white rounded-2xl shadow-md p-10 text-center">
 
@@ -165,89 +171,119 @@ const MyTutors = () => {
               You have not added any tutor yet.
             </p>
           </div>
+
+        ) : (
+
+          <div className="overflow-x-auto bg-white rounded-2xl shadow-lg">
+
+            <table className="table">
+
+              {/* Head */}
+              <thead className="bg-cyan-500 text-white">
+
+                <tr>
+
+                  <th>#</th>
+
+                  <th>Image</th>
+
+                  <th>Tutor Name</th>
+
+                  <th>Subject</th>
+
+                  <th>Fee</th>
+
+                  <th>Slots</th>
+
+                  <th>Session Date</th>
+
+                  <th>Mode</th>
+
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              {/* Body */}
+              <tbody>
+
+                {tutors.map(
+                  (tutor, index) => (
+
+                    <tr key={tutor._id}>
+
+                      <td>
+                        {index + 1}
+                      </td>
+
+                      <td>
+
+                        <img
+                          src={tutor.image}
+                          alt={tutor.tutorName}
+                          className="w-16 h-16 rounded-xl object-cover"
+                        />
+                      </td>
+
+                      <td className="font-semibold">
+                        {tutor.tutorName}
+                      </td>
+
+                      <td>
+                        {tutor.subject}
+                      </td>
+
+                      <td>
+                        ৳ {tutor.fee}
+                      </td>
+
+                      <td>
+                        {tutor.totalSlots}
+                      </td>
+
+                      <td>
+                        {tutor.sessionDate}
+                      </td>
+
+                      <td>
+                        {tutor.mode}
+                      </td>
+
+                      <td>
+
+                        <div className="flex gap-2">
+
+                          {/* Update */}
+                          <button
+                            onClick={() =>
+                              openUpdateModal(
+                                tutor
+                              )
+                            }
+                            className="px-4 py-2 rounded-lg bg-cyan-500 text-white hover:bg-cyan-600 transition"
+                          >
+                            Update
+                          </button>
+
+                          {/* Delete */}
+                          <button
+                            onClick={() =>
+                              openDeleteModal(
+                                tutor._id
+                              )
+                            }
+                            className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                )}
+              </tbody>
+            </table>
+          </div>
         )}
-
-        {/* Tutors Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-          {tutors.map((tutor) => (
-
-            <div
-              key={tutor._id}
-              className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition duration-300 border border-slate-200"
-            >
-
-              {/* Image */}
-              <img
-                src={tutor.image}
-                alt={tutor.tutorName}
-                className="w-full h-64 object-cover"
-              />
-
-              {/* Content */}
-              <div className="p-6">
-
-                <h3 className="text-2xl font-bold text-slate-800 mb-2">
-                  {tutor.tutorName}
-                </h3>
-
-                <p className="text-cyan-600 font-semibold mb-4">
-                  {tutor.subject}
-                </p>
-
-                <div className="space-y-3 text-slate-600">
-
-                  <p>
-                    <span className="font-semibold">
-                      Fee:
-                    </span>{" "}
-                    ৳ {tutor.fee}
-                  </p>
-
-                  <p>
-                    <span className="font-semibold">
-                      Days:
-                    </span>{" "}
-                    {tutor.days}
-                  </p>
-
-                  <p>
-                    <span className="font-semibold">
-                      Mode:
-                    </span>{" "}
-                    {tutor.mode}
-                  </p>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="mt-6 flex gap-3">
-
-                  {/* Update */}
-                  <button
-                    onClick={() =>
-                      openUpdateModal(tutor)
-                    }
-                    className="w-full py-3 rounded-xl bg-cyan-500 text-white font-semibold hover:bg-cyan-600 transition"
-                  >
-                    Update
-                  </button>
-
-                  {/* Delete */}
-                  <button
-                    onClick={() =>
-                      openDeleteModal(
-                        tutor._id
-                      )
-                    }
-                    className="w-full py-3 rounded-xl bg-red-500 text-white font-semibold hover:bg-red-600 transition"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* Delete Modal */}

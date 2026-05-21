@@ -58,6 +58,10 @@ const UpdateTutorModal = ({
 
       mode:
         form.mode.value,
+
+      // Session Date
+      sessionDate:
+        form.sessionDate.value,
     };
 
     try {
@@ -128,6 +132,7 @@ const UpdateTutorModal = ({
 
           {/* Tutor Name */}
           <div>
+
             <label className="block mb-2 font-medium">
               Tutor Name
             </label>
@@ -145,6 +150,7 @@ const UpdateTutorModal = ({
 
           {/* Image */}
           <div>
+
             <label className="block mb-2 font-medium">
               Image URL
             </label>
@@ -162,6 +168,7 @@ const UpdateTutorModal = ({
 
           {/* Subject */}
           <div>
+
             <label className="block mb-2 font-medium">
               Subject
             </label>
@@ -179,6 +186,7 @@ const UpdateTutorModal = ({
 
           {/* Days */}
           <div>
+
             <label className="block mb-2 font-medium">
               Days
             </label>
@@ -196,6 +204,7 @@ const UpdateTutorModal = ({
 
           {/* Time */}
           <div>
+
             <label className="block mb-2 font-medium">
               Time
             </label>
@@ -213,6 +222,7 @@ const UpdateTutorModal = ({
 
           {/* Fee */}
           <div>
+
             <label className="block mb-2 font-medium">
               Fee
             </label>
@@ -230,6 +240,7 @@ const UpdateTutorModal = ({
 
           {/* Slots */}
           <div>
+
             <label className="block mb-2 font-medium">
               Total Slots
             </label>
@@ -247,6 +258,7 @@ const UpdateTutorModal = ({
 
           {/* Experience */}
           <div>
+
             <label className="block mb-2 font-medium">
               Experience
             </label>
@@ -264,6 +276,7 @@ const UpdateTutorModal = ({
 
           {/* Location */}
           <div>
+
             <label className="block mb-2 font-medium">
               Location
             </label>
@@ -281,6 +294,7 @@ const UpdateTutorModal = ({
 
           {/* Mode */}
           <div>
+
             <label className="block mb-2 font-medium">
               Teaching Mode
             </label>
@@ -293,6 +307,7 @@ const UpdateTutorModal = ({
               required
               className="w-full px-4 py-3 border rounded-xl outline-none"
             >
+
               <option value="Online">
                 Online
               </option>
@@ -305,6 +320,24 @@ const UpdateTutorModal = ({
                 Both
               </option>
             </select>
+          </div>
+
+          {/* Session Date */}
+          <div>
+
+            <label className="block mb-2 font-medium">
+              Session Start Date
+            </label>
+
+            <input
+              type="date"
+              name="sessionDate"
+              defaultValue={
+                selectedTutor.sessionDate
+              }
+              required
+              className="w-full px-4 py-3 border rounded-xl outline-none"
+            />
           </div>
 
           {/* Submit */}

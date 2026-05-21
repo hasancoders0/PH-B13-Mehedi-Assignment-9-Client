@@ -11,41 +11,76 @@ const AddTutor = () => {
   const { user } = useAuth();
 
   const handleAddTutor = async (e) => {
+
     e.preventDefault();
 
     const form = e.target;
 
     const tutorData = {
-      tutorName: form.tutorName.value,
-      image: form.image.value,
-      subject: form.subject.value,
-      days: form.days.value,
-      time: form.time.value,
-      fee: form.fee.value,
-      totalSlots: form.totalSlots.value,
-      experience: form.experience.value,
-      location: form.location.value,
-      mode: form.mode.value,
 
-      userName: user?.displayName,
-      userEmail: user?.email,
-      createdAt: new Date(),
+      tutorName:
+        form.tutorName.value,
+
+      image:
+        form.image.value,
+
+      subject:
+        form.subject.value,
+
+      days:
+        form.days.value,
+
+      time:
+        form.time.value,
+
+      fee:
+        form.fee.value,
+
+      totalSlots:
+        form.totalSlots.value,
+
+      experience:
+        form.experience.value,
+
+      location:
+        form.location.value,
+
+      mode:
+        form.mode.value,
+
+      // Session Date
+      sessionDate:
+        form.sessionDate.value,
+
+      userName:
+        user?.displayName,
+
+      userEmail:
+        user?.email,
+
+      createdAt:
+        new Date(),
     };
 
     try {
-      const res = await axiosSecure.post(
-        "/tutors",
-        tutorData
-      );
+
+      const res =
+        await axiosSecure.post(
+          "/tutors",
+          tutorData
+        );
 
       if (res.data.insertedId) {
+
         toast.success(
           "Tutor added successfully"
         );
 
         form.reset();
       }
+
     } catch (error) {
+
       toast.error(error.message);
     }
   };
@@ -66,6 +101,7 @@ const AddTutor = () => {
 
           {/* Tutor Name */}
           <div>
+
             <label className="block mb-2 font-medium text-slate-700">
               Tutor Name
             </label>
@@ -81,6 +117,7 @@ const AddTutor = () => {
 
           {/* Image */}
           <div>
+
             <label className="block mb-2 font-medium text-slate-700">
               Image URL
             </label>
@@ -96,6 +133,7 @@ const AddTutor = () => {
 
           {/* Subject */}
           <div>
+
             <label className="block mb-2 font-medium text-slate-700">
               Subject
             </label>
@@ -111,6 +149,7 @@ const AddTutor = () => {
 
           {/* Days */}
           <div>
+
             <label className="block mb-2 font-medium text-slate-700">
               Available Days
             </label>
@@ -126,6 +165,7 @@ const AddTutor = () => {
 
           {/* Time */}
           <div>
+
             <label className="block mb-2 font-medium text-slate-700">
               Time Slot
             </label>
@@ -141,6 +181,7 @@ const AddTutor = () => {
 
           {/* Fee */}
           <div>
+
             <label className="block mb-2 font-medium text-slate-700">
               Hourly Fee
             </label>
@@ -156,6 +197,7 @@ const AddTutor = () => {
 
           {/* Slots */}
           <div>
+
             <label className="block mb-2 font-medium text-slate-700">
               Total Slots
             </label>
@@ -171,6 +213,7 @@ const AddTutor = () => {
 
           {/* Experience */}
           <div>
+
             <label className="block mb-2 font-medium text-slate-700">
               Experience
             </label>
@@ -186,6 +229,7 @@ const AddTutor = () => {
 
           {/* Location */}
           <div>
+
             <label className="block mb-2 font-medium text-slate-700">
               Location
             </label>
@@ -201,6 +245,7 @@ const AddTutor = () => {
 
           {/* Mode */}
           <div>
+
             <label className="block mb-2 font-medium text-slate-700">
               Teaching Mode
             </label>
@@ -210,6 +255,7 @@ const AddTutor = () => {
               required
               className="w-full px-4 py-3 border border-slate-300 rounded-xl outline-none focus:border-cyan-500"
             >
+
               <option value="">
                 Select Mode
               </option>
@@ -228,8 +274,24 @@ const AddTutor = () => {
             </select>
           </div>
 
+          {/* Session Date */}
+          <div>
+
+            <label className="block mb-2 font-medium text-slate-700">
+              Session Start Date
+            </label>
+
+            <input
+              type="date"
+              name="sessionDate"
+              required
+              className="w-full px-4 py-3 border border-slate-300 rounded-xl outline-none focus:border-cyan-500"
+            />
+          </div>
+
           {/* Submit */}
           <div className="md:col-span-2">
+
             <button
               type="submit"
               className="w-full py-4 rounded-xl bg-cyan-500 text-white font-semibold hover:bg-cyan-600 transition"

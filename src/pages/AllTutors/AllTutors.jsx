@@ -10,6 +10,7 @@ import useAuth from "../../hooks/useAuth";
 import TutorDetailsModal from "../../components/AllTutors/TutorDetailsModal";
 
 const AllTutors = () => {
+
   useTitle("All Tutors");
 
   const { user } = useAuth();
@@ -26,11 +27,35 @@ const AllTutors = () => {
   const [searchText, setSearchText] =
     useState("");
 
+  const [debouncedSearch, setDebouncedSearch] =
+    useState("");
+
+  const [startDate, setStartDate] =
+    useState("");
+
+  const [endDate, setEndDate] =
+    useState("");
+
+  // Debounce Search
+  useEffect(() => {
+
+    const timer = setTimeout(() => {
+
+      setDebouncedSearch(searchText);
+
+    }, 500);
+
+    return () => clearTimeout(timer);
+
+  }, [searchText]);
+
   // Fetch Tutors
   useEffect(() => {
 
+    setLoading(true);
+
     axiosSecure(
-      `/tutors?search=${searchText}`
+      `/tutors?search=${debouncedSearch}&startDate=${startDate}&endDate=${endDate}`
     )
       .then((res) => {
 
@@ -45,7 +70,11 @@ const AllTutors = () => {
         setLoading(false);
       });
 
-  }, [searchText]);
+  }, [
+    debouncedSearch,
+    startDate,
+    endDate,
+  ]);
 
   // Open Modal
   const handleViewDetails = (tutor) => {
@@ -66,8 +95,9 @@ const AllTutors = () => {
     setSelectedTutor(null);
   };
 
-  // Loading Spinner
+  // Loading
   if (loading) {
+
     return (
       <div className="min-h-screen flex items-center justify-center">
 
@@ -95,16 +125,40 @@ const AllTutors = () => {
         </div>
 
         {/* Search */}
-        <div className="max-w-2xl mx-auto mb-10">
+        <div className="max-w-2xl mx-auto mb-6">
 
           <input
             type="text"
-            placeholder="Search by subject..."
+            placeholder="Search by tutor name..."
             value={searchText}
             onChange={(e) =>
               setSearchText(e.target.value)
             }
             className="w-full px-6 py-4 rounded-2xl border border-slate-300 outline-none focus:border-cyan-500"
+          />
+        </div>
+
+        {/* Date Filters */}
+        <div className="flex flex-col md:flex-row gap-4 mb-10">
+
+          {/* Start Date */}
+          <input
+            type="date"
+            value={startDate}
+            onChange={(e) =>
+              setStartDate(e.target.value)
+            }
+            className="flex-1 px-6 py-4 rounded-2xl border border-slate-300 outline-none focus:border-cyan-500"
+          />
+
+          {/* End Date */}
+          <input
+            type="date"
+            value={endDate}
+            onChange={(e) =>
+              setEndDate(e.target.value)
+            }
+            className="flex-1 px-6 py-4 rounded-2xl border border-slate-300 outline-none focus:border-cyan-500"
           />
         </div>
 
@@ -118,7 +172,7 @@ const AllTutors = () => {
               className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition duration-300 border border-slate-200"
             >
 
-              {/* Tutor Image */}
+              {/* Image */}
               <img
                 src={tutor.image}
                 alt={tutor.tutorName}
@@ -161,13 +215,13 @@ const AllTutors = () => {
 
                   <p>
                     <span className="font-semibold">
-                      Location:
+                      Session Date:
                     </span>{" "}
-                    {tutor.location}
+                    {tutor.sessionDate}
                   </p>
                 </div>
 
-                {/* Details Button */}
+                {/* Button */}
                 <button
                   onClick={() =>
                     handleViewDetails(tutor)
@@ -181,7 +235,7 @@ const AllTutors = () => {
           ))}
         </div>
 
-        {/* Empty Search Result */}
+        {/* Empty */}
         {tutors.length === 0 && (
 
           <div className="bg-white rounded-2xl shadow-md p-10 text-center mt-10">
@@ -191,7 +245,7 @@ const AllTutors = () => {
             </h3>
 
             <p className="text-slate-500">
-              Try searching another subject.
+              Try another search or date range.
             </p>
           </div>
         )}

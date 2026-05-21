@@ -13,11 +13,10 @@ const FeaturedTutors = () => {
   // Fetch Tutors
   useEffect(() => {
 
-    axiosSecure("/tutors")
+    axiosSecure("/tutors?limit=6")
       .then((res) => {
 
-        // Show only first 6 tutors
-        setTutors(res.data.slice(0, 6));
+        setTutors(res.data);
 
         setLoading(false);
       })
