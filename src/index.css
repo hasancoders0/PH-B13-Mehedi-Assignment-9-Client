@@ -1,6 +1,28 @@
 @import "tailwindcss";
 
-.dark {
-  background-color: #020617;
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: white;
+  color: #0f172a;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.dark body {
+  background-color: #0f172a;
   color: white;
+}
+
+
+
+.hero-slider .swiper-button-prev,
+.hero-slider .swiper-button-next {
+padding: 10px;
 }

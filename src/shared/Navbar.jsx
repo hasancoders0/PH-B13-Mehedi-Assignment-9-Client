@@ -3,16 +3,25 @@ import {
   NavLink,
 } from "react-router-dom";
 
+import {
+  useState,
+} from "react";
+
 import toast from "react-hot-toast";
 
 import {
   FaMoon,
   FaSun,
+  FaBars,
+  FaBookOpen,
+  FaUser,
 } from "react-icons/fa";
 
 import useAuth from "../hooks/useAuth";
 
 import useTheme from "../hooks/useTheme";
+
+import MobileMenu from "../components/Navbar/MobileMenu";
 
 const Navbar = () => {
 
@@ -26,6 +35,9 @@ const Navbar = () => {
     toggleTheme,
   } = useTheme();
 
+  const [menuOpen, setMenuOpen] =
+    useState(false);
+
   // Logout
   const handleLogout = async () => {
 
@@ -33,7 +45,6 @@ const Navbar = () => {
 
       await logoutUser();
 
-      // Remove JWT Token
       localStorage.removeItem(
         "access-token"
       );
@@ -42,117 +53,184 @@ const Navbar = () => {
         "Logout successful"
       );
 
+      setMenuOpen(false);
+
     } catch (error) {
 
       toast.error(error.message);
     }
   };
 
+  // NavLink Style
+  const navLinkClass = ({
+    isActive,
+  }) =>
+    `relative font-medium transition after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-cyan-500 after:transition-all after:duration-300 ${
+      isActive
+        ? "text-cyan-500 after:w-full"
+        : "text-slate-700 dark:text-slate-200 after:w-0 hover:text-cyan-500 hover:after:w-full"
+    }`;
+
   return (
-    <nav className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 shadow-sm transition">
+    <>
+      <nav className="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg border-b border-slate-200 dark:border-slate-700 shadow-sm">
 
-      <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 lg:px-6 h-[80px] flex items-center justify-between">
 
-        {/* Logo */}
-        <Link
-          to="/"
-          className="text-2xl font-bold text-cyan-600"
-        >
-          Tutor Booking
-        </Link>
-
-        {/* Nav Links */}
-        <div className="hidden md:flex items-center gap-6 font-medium text-slate-700 dark:text-slate-200">
-
-          <NavLink to="/">
-            Home
-          </NavLink>
-
-          <NavLink to="/all-tutors">
-            Tutors
-          </NavLink>
-
-          {
-            user && (
-              <>
-                <NavLink to="/add-tutor">
-                  Add Tutor
-                </NavLink>
-
-                <NavLink to="/my-tutors">
-                  My Tutors
-                </NavLink>
-
-                <NavLink to="/my-booked-sessions">
-                  My Booked Sessions
-                </NavLink>
-              </>
-            )
-          }
-        </div>
-
-        {/* Right Side */}
-        <div className="flex items-center gap-3">
-
-          {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            className="w-11 h-11 rounded-full bg-slate-200 dark:bg-slate-700 dark:text-white flex items-center justify-center text-lg transition"
+          {/* Logo */}
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-2xl font-bold text-cyan-500"
           >
+            <FaBookOpen />
+
+            <span className="hidden sm:block">
+              Tutor Booking
+            </span>
+          </Link>
+
+          {/* Desktop Menu */}
+          <div className="hidden lg:flex items-center gap-8">
+
+            <NavLink
+              to="/"
+              className={navLinkClass}
+            >
+              Home
+            </NavLink>
+
+            <NavLink
+              to="/all-tutors"
+              className={navLinkClass}
+            >
+              Tutors
+            </NavLink>
+
             {
-              theme === "light"
-                ? <FaMoon />
-                : <FaSun />
+              user && (
+                <>
+                  <NavLink
+                    to="/add-tutor"
+                    className={navLinkClass}
+                  >
+                    Add Tutor
+                  </NavLink>
+
+                  <NavLink
+                    to="/my-tutors"
+                    className={navLinkClass}
+                  >
+                    My Tutors
+                  </NavLink>
+
+                  <NavLink
+                    to="/my-booked-sessions"
+                    className={navLinkClass}
+                  >
+                    My Sessions
+                  </NavLink>
+                </>
+              )
             }
-          </button>
+          </div>
 
-          {
-            user ? (
-              <>
-                {/* User Image */}
-                <img
-                  src={
-                    user.photoURL ||
-                    "https://i.ibb.co/4pDNDk1/avatar.png"
+          {/* Right Side */}
+          <div className="flex items-center gap-3">
+
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="w-11 h-11 rounded-full bg-slate-100 dark:bg-slate-800 dark:text-white flex items-center justify-center text-lg hover:scale-105 transition"
+            >
+              {
+                theme === "light"
+                  ? <FaMoon />
+                  : <FaSun />
+              }
+            </button>
+
+            {
+              user ? (
+                <>
+                  {/* User Image / Icon */}
+                  {
+                    user.photoURL ? (
+                      <img
+                        src={
+                          user.photoURL
+                        }
+                        alt="user"
+                        title={
+                          user.displayName
+                        }
+                        className="hidden md:block w-11 h-11 rounded-full object-cover border-2 border-cyan-500"
+                      />
+                    ) : (
+                      <div
+                        title={
+                          user.displayName
+                        }
+                        className="hidden md:flex w-11 h-11 rounded-full border-2 border-cyan-500 bg-cyan-100 dark:bg-slate-800 items-center justify-center text-cyan-600 dark:text-cyan-400 text-lg"
+                      >
+                        <FaUser />
+                      </div>
+                    )
                   }
-                  alt="user"
-                  title={
-                    user.displayName
-                  }
-                  className="w-11 h-11 rounded-full object-cover border-2 border-cyan-500"
-                />
 
-                {/* Logout */}
-                <button
-                  onClick={handleLogout}
-                  className="px-5 py-2 rounded-xl bg-red-500 text-white font-medium hover:bg-red-600 transition"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                {/* Login */}
-                <Link
-                  to="/login"
-                  className="px-5 py-2 rounded-xl bg-cyan-500 text-white font-medium hover:bg-cyan-600 transition"
-                >
-                  Login
-                </Link>
+                  {/* Logout */}
+                  <button
+                    onClick={
+                      handleLogout
+                    }
+                    className="hidden md:block px-5 py-2.5 rounded-xl bg-red-500 text-white font-medium hover:bg-red-600 transition"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  {/* Login */}
+                  <Link
+                    to="/login"
+                    className="hidden md:block px-5 py-2.5 rounded-xl bg-cyan-500 text-white font-medium hover:bg-cyan-600 transition"
+                  >
+                    Login
+                  </Link>
 
-                {/* Register */}
-                <Link
-                  to="/register"
-                  className="px-5 py-2 rounded-xl border border-cyan-500 text-cyan-600 dark:text-cyan-400 font-medium hover:bg-cyan-50 dark:hover:bg-slate-800 transition"
-                >
-                  Register
-                </Link>
-              </>
-            )
-          }
+                  {/* Register */}
+                  <Link
+                    to="/register"
+                    className="hidden md:block px-5 py-2.5 rounded-xl border border-cyan-500 text-cyan-600 dark:text-cyan-400 font-medium hover:bg-cyan-50 dark:hover:bg-slate-800 transition"
+                  >
+                    Register
+                  </Link>
+                </>
+              )
+            }
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() =>
+                setMenuOpen(
+                  !menuOpen
+                )
+              }
+              className="flex lg:hidden w-11 h-11 rounded-full bg-slate-100 dark:bg-slate-800 dark:text-white items-center justify-center text-xl"
+            >
+              <FaBars />
+            </button>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* Mobile Menu */}
+      <MobileMenu
+        menuOpen={menuOpen}
+        setMenuOpen={setMenuOpen}
+        user={user}
+        handleLogout={handleLogout}
+      />
+    </>
   );
 };
 

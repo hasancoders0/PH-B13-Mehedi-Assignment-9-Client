@@ -6,7 +6,7 @@ const axiosSecure = axios.create({
     import.meta.env.VITE_API_URL,
 });
 
-// Axios Interceptor
+// Interceptor
 axiosSecure.interceptors.request.use(
 
   (config) => {
